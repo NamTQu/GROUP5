@@ -39,16 +39,6 @@ public class AdminController {
           return ResponseEntity.ok(userService.getAllUsers(page, size, keyWord));
     }
 
-    @PutMapping("/{UserId}/change_status")
-    public ResponseEntity<UserResponse> changeUserStatus(@PathVariable Integer userId){
-        UserResponse updatedUser = userService.changeUserStatus(userId);
-        if(updatedUser != null){
-            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
 
     @GetMapping("/roomlist")
     public ResponseEntity<Page<BedsitterResponse>> getAllBedsitter(
@@ -58,6 +48,7 @@ public class AdminController {
     ){
         return ResponseEntity.ok(bedsitterService.getAllBedsitter(page, size, keyWord));
     }
+
 
 
 }

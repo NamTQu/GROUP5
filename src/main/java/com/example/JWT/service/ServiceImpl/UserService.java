@@ -86,20 +86,6 @@ public class UserService implements IUserService {
         return userPage.map(user ->modelMapper.map(user,UserResponse.class));
     }
 
-    public UserResponse changeUserStatus(Integer userId) {
-        Optional<User> optionalUser = repository.findById(userId);
-        if(optionalUser.isPresent()){
-            User user = optionalUser.get();
-            String currentStatus = user.getStatus();
-            String newStatus = "ACTIVE".equals(currentStatus) ? "IN-ACTIVE" : "ACTIVE";
-            user.setStatus(newStatus);
-            repository.save(user);
-            return modelMapper.map(user, UserResponse.class);
-        }
-        return null;
-    }
-
-
     public UserResponse getUsers() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication == null || !authentication.isAuthenticated()){
