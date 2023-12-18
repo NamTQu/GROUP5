@@ -15,6 +15,5 @@ public interface IUserService {
     public Object resetPassword(ResetPasswordRequest request);
     public User editProfile (Integer userId, User updatedUser);
     public Page<UserResponse> getAllUsers(int page, int size, String keyWord);
-    public UserResponse changeUserStatus(Integer userId);
 
 }
