@@ -23,5 +23,5 @@ public interface BedsitterRepository extends JpaRepository<Bedsitter, Long> {
             """, nativeQuery = true)
     BedsitterResponse findById(@Param("bed_id") int bed_id);
 
-    Page<Bedsitter> findBySearch(String keyWord, Pageable pageable);
+    Page<Bedsitter> findByroomCodeContaining(String keyWord, Pageable pageable);
 }

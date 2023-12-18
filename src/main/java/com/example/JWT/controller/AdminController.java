@@ -39,6 +39,11 @@ public class AdminController {
           return ResponseEntity.ok(userService.getAllUsers(page, size, keyWord));
     }
 
+    @GetMapping("/demo")
+    public String demo(){
+        return "this is a demo";
+    }
+
 
     @GetMapping("/roomlist")
     public ResponseEntity<Page<BedsitterResponse>> getAllBedsitter(
@@ -48,6 +53,7 @@ public class AdminController {
     ){
         return ResponseEntity.ok(bedsitterService.getAllBedsitter(page, size, keyWord));
     }
+
 
 
 

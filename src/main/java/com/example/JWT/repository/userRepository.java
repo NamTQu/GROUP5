@@ -22,5 +22,5 @@ public interface userRepository extends JpaRepository<User,Integer> {
     UserResponse viewProfile(@Param("user_id") int user_id);
 
 
-    Page<User> findBySearch(String keyWord, Pageable pageable);
+    Page<User> findBynameContaining(String keyWord, Pageable pageable);
 }

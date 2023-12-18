@@ -52,7 +52,7 @@ public class BedsitterService implements IBedsitterService {
         if(keyWord == null){
             bedsitterPage = bedsitterRepository.findAll(pageable);
         }else{
-            bedsitterPage = bedsitterRepository.findBySearch(keyWord, pageable);
+            bedsitterPage = bedsitterRepository.findByroomCodeContaining(keyWord, pageable);
         }
         return bedsitterPage.map(bedsitter ->modelMapper.map(bedsitter, BedsitterResponse.class));
     }
