@@ -30,5 +30,4 @@ public class Image {
     @Column(name = "image", nullable = false, columnDefinition = "LONGTEXT")
     private String image;
 
-
 }

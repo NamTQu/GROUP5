@@ -11,7 +11,7 @@ import java.util.List;
 public interface IBedsitterService {
     public List<BedsitterRequest> getHomePageProducts(int numberProducts);
     public BedsitterResponse getBedDetails(Long id);
-    public Page<BedsitterResponse> getAllBedsitters(int page, int size);
+    public Page<Bedsitter> getAllBedsitters(int page, int size);
     public Page<BedsitterResponse> getAllBedsitter(int page, int size, String keyWord);
     public Bedsitter editBedsitter(Long id, Bedsitter updatedBedsitter);
     public void deleteBedsitter(Long id);

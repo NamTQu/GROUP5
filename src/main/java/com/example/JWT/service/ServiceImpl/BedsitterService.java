@@ -40,11 +40,12 @@ public class BedsitterService implements IBedsitterService {
     }
 
     @Override
-    public Page<BedsitterResponse> getAllBedsitters(int page, int size) {
+    public Page<Bedsitter> getAllBedsitters(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Bedsitter> bedsitterPage = bedsitterRepository.findAll(pageable);
 
-        return bedsitterPage.map(bedsitter -> modelMapper.map(bedsitter, BedsitterResponse.class));
+        return bedsitterPage;
+    //    return bedsitterPage.map(bedsitter -> modelMapper.map(bedsitter, BedsitterResponse.class));
     }
 
     @Override
