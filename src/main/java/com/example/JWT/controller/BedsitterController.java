@@ -17,7 +17,7 @@ public class BedsitterController {
     private final BedsitterService bedsitterService;
 
     @GetMapping("/details")
-    public ResponseEntity<BedsitterResponse> getBedsitterDetails(@RequestParam int id){
+    public ResponseEntity<BedsitterResponse> getBedsitterDetails(@RequestParam Long id){
         return new ResponseEntity<>(bedsitterService.getBedDetails(id), HttpStatus.OK);
     }
 

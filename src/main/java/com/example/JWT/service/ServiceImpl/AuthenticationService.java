@@ -39,7 +39,7 @@ public class AuthenticationService implements IAuthenticationService {
     @Override
     public AuthenticationResponse register(RegisterRequest request) {
            var User = com.example.JWT.model.Entity.User.builder()
-                   .name(request.getName())
+                   .fullname(request.getFullname())
                    .username(request.getUsername())
                    .password(passwordEncoder.encode(request.getPassword()))
                    .email(request.getEmail())

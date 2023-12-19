@@ -10,10 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BedsitterResponse {
-    private String room_code;
+    private Long id;
+    private String roomCode;
     private int size;
-    private double electric_price;
-    private double water_price;
-    private double room_price;
+    private double electricityPrice;
+    private double waterPrice;
+    private double roomPrice;
     private String description;
 }

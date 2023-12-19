@@ -81,7 +81,7 @@ public class UserService implements IUserService {
         if(keyWord == null){
             userPage = repository.findAll(pageable);
         }else{
-            userPage = repository.findBynameContaining(keyWord, pageable);
+            userPage = repository.findByfullnameContaining(keyWord, pageable);
         }
         return userPage.map(user ->modelMapper.map(user,UserResponse.class));
     }

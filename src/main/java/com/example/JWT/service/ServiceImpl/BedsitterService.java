@@ -7,6 +7,7 @@ import com.example.JWT.model.Entity.Bedsitter;
 import com.example.JWT.model.Entity.User;
 import com.example.JWT.repository.BedsitterRepository;
 import com.example.JWT.service.Interface.IBedsitterService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,9 @@ public class BedsitterService implements IBedsitterService {
     }
 
     @Override
-    public BedsitterResponse getBedDetails(int id) {
-        return bedsitterRepository.findById(id);
+    public BedsitterResponse getBedDetails(Long id) {
+        Bedsitter bedsitterDetails = bedsitterRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Bedsitter Not Found!"));
+        return modelMapper.map(bedsitterDetails, BedsitterResponse.class);
     }
 
     @Override
@@ -58,4 +60,17 @@ public class BedsitterService implements IBedsitterService {
     }
 
 
+    public Bedsitter editBedsitter(Long id, Bedsitter updatedBedsitter) {
+        Bedsitter existingBedsitter = bedsitterRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Bedsitter Not Found"));
+        existingBedsitter.setSize(updatedBedsitter.getSize());
+        existingBedsitter.setElectricityPrice(updatedBedsitter.getElectricityPrice());
+        existingBedsitter.setWaterPrice(updatedBedsitter.getWaterPrice());
+        existingBedsitter.setRoomPrice(updatedBedsitter.getRoomPrice());
+        return bedsitterRepository.save(existingBedsitter);
+    }
+
+    public void deleteBedsitter(Long id) {
+        Bedsitter existingBedsitter = bedsitterRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Bedsitter Not Found"));
+        bedsitterRepository.delete(existingBedsitter);
+    }
 }

@@ -5,9 +5,11 @@ import com.example.JWT.dto.Request.ChangePasswordRequest;
 import com.example.JWT.dto.Request.ResetPasswordRequest;
 import com.example.JWT.dto.Response.UserResponse;
 import com.example.JWT.model.Entity.User;
+import com.example.JWT.service.ServiceImpl.ContractService;
 import com.example.JWT.service.ServiceImpl.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +21,15 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class UserController {
 
+    @Autowired
     private final UserService userService;
 
+    @Autowired
     private final ModelMapper modelMapper;
 
-    private UserResponse convertEntityToDTO(User user){
-          return  modelMapper.map(user, UserResponse.class);
-    }
+    @Autowired
+    private final ContractService contractService;
+
 
     @PatchMapping("/change_password")
     public ResponseEntity<?> changePassword(
@@ -52,7 +56,6 @@ public class UserController {
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
-
     @PutMapping("/edit/{id}")
     public ResponseEntity<User> editProfile(@PathVariable Integer id, User updatedUser){
         User updatedUserData = userService.editProfile(id, updatedUser);
@@ -60,6 +63,16 @@ public class UserController {
             return ResponseEntity.ok(updatedUserData);
         }else{
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/delete_booking/{contractId}")
+    public ResponseEntity<String> cancelContract(@PathVariable Long contractId){
+        try {
+            contractService.cancelContract(contractId);
+            return new ResponseEntity<>("Contract canceled successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to cancel contract", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

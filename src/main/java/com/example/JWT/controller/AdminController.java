@@ -3,6 +3,7 @@ package com.example.JWT.controller;
 
 import com.example.JWT.dto.Response.BedsitterResponse;
 import com.example.JWT.dto.Response.UserResponse;
+import com.example.JWT.model.Entity.Bedsitter;
 import com.example.JWT.repository.userRepository;
 import com.example.JWT.service.ServiceImpl.BedsitterService;
 import com.example.JWT.service.ServiceImpl.UserService;
@@ -39,12 +40,6 @@ public class AdminController {
           return ResponseEntity.ok(userService.getAllUsers(page, size, keyWord));
     }
 
-    @GetMapping("/demo")
-    public String demo(){
-        return "this is a demo";
-    }
-
-
     @GetMapping("/roomlist")
     public ResponseEntity<Page<BedsitterResponse>> getAllBedsitter(
             @RequestParam(defaultValue = "0") int page,
@@ -52,6 +47,23 @@ public class AdminController {
             @RequestParam(required = false) String keyWord
     ){
         return ResponseEntity.ok(bedsitterService.getAllBedsitter(page, size, keyWord));
+    }
+
+    @PostMapping("/edit/{id}")
+    public ResponseEntity<Bedsitter> editBedsitter(
+            @PathVariable Long id,
+            @RequestBody Bedsitter updatedBedsitter
+    ){
+        Bedsitter editedBedsitter = bedsitterService.editBedsitter(id, updatedBedsitter);
+        return ResponseEntity.ok(editedBedsitter);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteBedsitter(
+            @PathVariable Long id
+    ){
+        bedsitterService.deleteBedsitter(id);
+        return ResponseEntity.ok("Bedsitter deleted successfully");
     }
 
 

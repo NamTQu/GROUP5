@@ -10,18 +10,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BedsitterRepository extends JpaRepository<Bedsitter, Long> {
 
     @Query(value = """
             select * from Bedsitter_Management_System.Bedsitter LIMIT :numberProducts
             """,nativeQuery = true)
-    List<BedsitterRequest> findTopProducts(@Param("numberProducts") int numberProducts);
+    public List<BedsitterRequest> findTopProducts(@Param("numberProducts") int numberProducts);
 
-    @Query(value = """
-            select b from Bedsitter_Management_System.Bedsitter b WHERE bedsitter_id = :bed_id
-            """, nativeQuery = true)
-    BedsitterResponse findById(@Param("bed_id") int bed_id);
+    public Page<Bedsitter> findByroomCodeContaining(String keyWord, Pageable pageable);
 
-    Page<Bedsitter> findByroomCodeContaining(String keyWord, Pageable pageable);
+    public Optional<Bedsitter> findById(Long id);
+
 }
