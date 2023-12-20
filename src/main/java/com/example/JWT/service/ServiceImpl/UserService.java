@@ -96,5 +96,12 @@ public class UserService implements IUserService {
         return modelMapper.map(user, UserResponse.class);
     }
 
+    public Integer getUserIdFromToken() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof User) {
+            return ((User) authentication.getPrincipal()).getId();
+        }
+        return null;
+    }
 
 }

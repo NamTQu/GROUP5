@@ -59,7 +59,6 @@ public class BedsitterController {
         });
         return ResponseEntity.ok(bedsitterResponses);
 
-        //return new ResponseEntity<>(bedsitterService.getAllBedsitters(page, size), HttpStatus.OK) ;
     }
 
 }

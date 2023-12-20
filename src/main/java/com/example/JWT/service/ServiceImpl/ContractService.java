@@ -7,11 +7,19 @@ import com.example.JWT.model.Entity.User;
 import com.example.JWT.repository.BedsitterRepository;
 import com.example.JWT.repository.ContractRepository;
 import com.example.JWT.repository.userRepository;
+import com.example.JWT.service.Interface.IContractService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -19,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
-public class ContractService {
+public class ContractService implements IContractService {
 
     @Autowired
     private final ContractRepository contractRepository;
@@ -30,6 +38,28 @@ public class ContractService {
     @Autowired
     private final BedsitterRepository bedsitterRepository;
 
+    @Autowired
+    private final UserService userService;
+
+    @Autowired
+    private final AuthenticationService authenticationService;
+
+    @Override
+    public Page<Contract> getUserBookingHistory(int page, int size) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated()){
+            return null;
+        }
+        Integer userId = ((User) authentication.getPrincipal()).getId();
+        if(userId != null){
+            Pageable pageable = PageRequest.of(page,size);
+           Page<Contract> contracts =  contractRepository.findByTenantId(userId, pageable);
+            return contractRepository.findByTenantId(userId, pageable);
+        }
+        return Page.empty();
+    }
+
+    @Override
     public void createContract(ContractRequest request) {
         Contract contract = new Contract();
 
