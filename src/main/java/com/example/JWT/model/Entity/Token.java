@@ -1,6 +1,7 @@
 package com.example.JWT.model.Entity;
 
 import com.example.JWT.model.Enum.TokenType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,5 +31,6 @@ public class Token {
 
     @ManyToOne
     @JoinColumn(name="user_id")
+    @JsonBackReference
     private User user;
 }

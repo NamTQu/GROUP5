@@ -1,5 +1,7 @@
 package com.example.JWT.model.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,12 +23,14 @@ public class Contract {
     @Column(name = "contract_id")
     private Long contractId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tenant_id", referencedColumnName = "id")
+    @JsonBackReference
     private User tenant;
 
     @ManyToOne
     @JoinColumn(name = "bedsitter_id", referencedColumnName = "bedsitter_id")
+    @JsonBackReference
     private Bedsitter bedsitter;
 
     @Column(name = "effective_from")

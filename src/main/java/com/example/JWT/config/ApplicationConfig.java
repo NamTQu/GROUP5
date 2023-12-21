@@ -53,17 +53,6 @@ public class ApplicationConfig {
         return new ModelMapper();
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowCredentials(true);
-        configuration.addAllowedOrigin("http://localhost:3000"); // Thay đổi địa chỉ React app của bạn
-        configuration.addAllowedHeader("*");
-        configuration.addAllowedMethod("*");
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
 
 }

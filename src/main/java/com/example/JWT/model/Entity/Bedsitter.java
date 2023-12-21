@@ -1,5 +1,6 @@
 package com.example.JWT.model.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,7 @@ public class Bedsitter {
 
     @ManyToOne
     @JoinColumn(name = "tenant_id", referencedColumnName = "id")
+    @JsonBackReference
     private User tenant;
 
     @Column(name = "room_code", nullable = false, length = 50)

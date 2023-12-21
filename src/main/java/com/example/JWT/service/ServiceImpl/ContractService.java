@@ -1,6 +1,7 @@
 package com.example.JWT.service.ServiceImpl;
 
 import com.example.JWT.dto.Request.ContractRequest;
+import com.example.JWT.dto.Response.ContractResponse;
 import com.example.JWT.model.Entity.Bedsitter;
 import com.example.JWT.model.Entity.Contract;
 import com.example.JWT.model.Entity.User;
@@ -9,8 +10,10 @@ import com.example.JWT.repository.ContractRepository;
 import com.example.JWT.repository.userRepository;
 import com.example.JWT.service.Interface.IContractService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -24,6 +27,7 @@ import java.util.Optional;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,25 +43,7 @@ public class ContractService implements IContractService {
     private final BedsitterRepository bedsitterRepository;
 
     @Autowired
-    private final UserService userService;
-
-    @Autowired
-    private final AuthenticationService authenticationService;
-
-    @Override
-    public Page<Contract> getUserBookingHistory(int page, int size) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication == null || !authentication.isAuthenticated()){
-            return null;
-        }
-        Integer userId = ((User) authentication.getPrincipal()).getId();
-        if(userId != null){
-            Pageable pageable = PageRequest.of(page,size);
-           Page<Contract> contracts =  contractRepository.findByTenantId(userId, pageable);
-            return contractRepository.findByTenantId(userId, pageable);
-        }
-        return Page.empty();
-    }
+    private final ModelMapper modelMapper;
 
     @Override
     public void createContract(ContractRequest request) {

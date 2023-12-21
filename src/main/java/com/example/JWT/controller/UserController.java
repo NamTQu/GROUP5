@@ -4,6 +4,7 @@ package com.example.JWT.controller;
 import com.example.JWT.dto.Request.ChangePasswordRequest;
 import com.example.JWT.dto.Request.ContractRequest;
 import com.example.JWT.dto.Request.ResetPasswordRequest;
+import com.example.JWT.dto.Response.ContractResponse;
 import com.example.JWT.dto.Response.UserResponse;
 import com.example.JWT.model.Entity.Contract;
 import com.example.JWT.model.Entity.User;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -51,6 +53,14 @@ public class UserController {
         return ResponseEntity.ok(userService.resetPassword(request));
     }
 
+    @GetMapping("/history")
+    public Page<ContractResponse> getUserHistory(
+            @RequestParam(defaultValue = "0") int page ,
+            @RequestParam(defaultValue = "5") int size
+    ){
+        return userService.getUserHistory(page,size);
+    }
+
     @GetMapping("/profile")
     public ResponseEntity<UserResponse> viewProfile(){
         UserResponse userResponse = userService.getUsers();
@@ -80,13 +90,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/booking_history")
-    public ResponseEntity<?> getContractHistory(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size
-    ){
-          return  ResponseEntity.ok(contractService.getUserBookingHistory(page,size));
-    }
+
 
 
 }

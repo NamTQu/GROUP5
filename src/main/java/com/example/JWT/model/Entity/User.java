@@ -1,6 +1,7 @@
 package com.example.JWT.model.Entity;
 
 import com.example.JWT.model.Enum.Role;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,6 +52,7 @@ public class User implements UserDetails {
     private Role role;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private List<Token> tokens;
 
     @Override

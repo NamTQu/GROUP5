@@ -3,9 +3,12 @@ package com.example.JWT.service.ServiceImpl;
 import com.example.JWT.dto.Request.ChangePasswordRequest;
 import com.example.JWT.dto.Request.ResetPasswordRequest;
 import com.example.JWT.dto.Response.BedsitterResponse;
+import com.example.JWT.dto.Response.ContractResponse;
 import com.example.JWT.dto.Response.UserResponse;
 import com.example.JWT.model.Entity.Bedsitter;
+import com.example.JWT.model.Entity.Contract;
 import com.example.JWT.model.Entity.User;
+import com.example.JWT.repository.ContractRepository;
 import com.example.JWT.repository.userRepository;
 import com.example.JWT.service.Interface.IUserService;
 import jakarta.persistence.EntityNotFoundException;
@@ -36,6 +39,8 @@ public class UserService implements IUserService {
     @Autowired
     private final userRepository repository;
 
+    @Autowired
+    private final ContractRepository contractRepository;
 
     @Autowired
     private final ModelMapper modelMapper;
@@ -104,4 +109,14 @@ public class UserService implements IUserService {
         return null;
     }
 
+    public Page<ContractResponse> getUserHistory(int page, int size) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated()){
+            return null;
+        }
+        Integer userId = ((User) authentication.getPrincipal()).getId();
+        Pageable pageable = PageRequest.of(page,size);
+        Page<ContractResponse> history = contractRepository.findByTenantId(userId,pageable);
+        return history;
+    }
 }
